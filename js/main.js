@@ -248,12 +248,14 @@ window.onload = function() {
             btn.innerText = "решить";
             problemsList[i].appendChild(btn);
 
-            let done = false;
+//            let done = false;
             btn.onclick = function () {
-                if(!done) {
+//                if(!done) {
                     showAnswer(problemsList[i], "problem" + (i + 1));
-                    done = true;
-                }
+//                    done = true;
+//                }
+
+               var removedBtn = problemsList[i].removeChild(btn);
             }
         }
     }
