@@ -265,18 +265,12 @@ window.onload = function() {
         if (answers[problemsNumber] !== undefined) {
 
             var answerSection = document.createElement("p");
-            answerSection.style.display = "block";
-            answerSection.style.backgroundColor = "#999";
-            answerSection.style.color = "#fff";
-            answerSection.style.padding = "5px";
+            answerSection.className += ' answer-section';
             answerSection.innerText = "Ответ: " + answers[problemsNumber]();
             target.appendChild(answerSection);
 
             var code = document.createElement("pre");
-            code.style.display = "block";
-            code.style.backgroundColor = "#006E80";
-            code.style.color = "#fff";
-            code.style.padding = "5px";
+            code.className += ' code-section';
             code.innerHTML = answers[problemsNumber];
             target.appendChild(code);
         }

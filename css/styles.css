@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, Helvitica, sans-serif;
+    background-color: #dbdee5;
+}
+
+.main-container {
+    width: 960px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+p.description {
+    text-align: center;
+    border: 1px dotted #999;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+#problems-list {
+    list-style-position: inside;
+}
+
+#problems-list button {
+    background-color: #d1ac91;
+    border-color: transparent;
+    font-size: 14px;
+}
+
+li h2 {
+    border-bottom: 1px solid ;
+    margin-bottom: 5px;
+    margin-top: 50px;
+    display: inline-block;
+}
+
+li p {
+
+}
+
+p.answer-section {
+    display: inline-block;
+    background-color: #999;
+    color: #fff;
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+pre.code-section {
+    display: block;
+    background-color: #006e80;
+    color: #fff;
+    padding: 5px;
+    margin-top: 5px;
+/*    margin-bottom: 50px;*/
+}
