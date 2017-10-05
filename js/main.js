@@ -541,23 +541,20 @@ window.onload = function() {
 
     // добавить кнопки не пустым элементам списка и повесить на них события клика
     var problemsList = document.querySelectorAll("#problems-list > li");
-    for (let i = 0; i < problemsList.length; i++) {
+    for (var i = 0; i < problemsList.length; i++) {
         if (problemsList[i].childNodes.length > 0) {
-            // alert("ok");
-            let btn = document.createElement("button");
+            var btn = document.createElement("button");
             btn.innerText = "решить";
             problemsList[i].appendChild(btn);
-
-//            let done = false;
-            btn.onclick = function () {
-//                if(!done) {
-                    showAnswer(problemsList[i], "problem" + (i + 1));
-//                    done = true;
-//                }
-
-               var removedBtn = problemsList[i].removeChild(btn);
-            }
         }
+    }
+    var btns = document.querySelectorAll('#problems-list button');
+    for(var j = 0; j < btns.length; j++){
+
+        btns[j].addEventListener('click', function(e){
+            showAnswer(e.target.parentNode , e.target.parentNode.getAttribute('id'));
+            var removedBtn = e.target.parentNode.removeChild(e.target);
+        });
     }
 
     // показать ответ и код
@@ -567,6 +564,7 @@ window.onload = function() {
             var answerSection = document.createElement("p");
             answerSection.className += ' answer-section';
             answerSection.innerText = "Ответ: " + answers[problemsNumber]();
+
             target.appendChild(answerSection);
 
             var code = document.createElement("pre");
