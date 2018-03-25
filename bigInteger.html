@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://peterolson.github.com/BigInteger.js/BigInteger.min.js"></script>
+</head>
+<body>
+    <script>
+        var arr = bigInt(2).pow(1000).toString().split('');
+        var res = 0;
+        arr.forEach(element => {
+            res += Number(element)
+        });
+        console.log( res )
+    </script>
+</body>
+</html>

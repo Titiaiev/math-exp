@@ -1,6 +1,6 @@
 "use strict";
 window.onload = function () {
-
+    
     var problemsList = Array.from( document.querySelectorAll("#problems-list > li") );
     // добавить кнопки не пустым элементам списка
     problemsList.forEach( function (problem) {
