@@ -1,5 +1,7 @@
 'use strict'
+// ответ 4613732
 
+// calc 0.247 - 0.370 ms
 var calc = function() {
     var sumOfEvenFibonacci = 0;
 
@@ -30,8 +32,12 @@ var calc = function() {
 
 addEventListener('message', function () {
 
+    console.time('1')
+    let answer = calc();
+    console.timeEnd('1');
+    
     postMessage({
-        answer: calc(),
+        answer: answer,
         code: calc.toString()
     });
 
