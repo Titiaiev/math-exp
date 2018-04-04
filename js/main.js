@@ -49,7 +49,7 @@ window.onload = function () {
         }
 
         worker.onerror = function () {
-            wraper.innerHTML = '<p class="answer-section">файла с именем '+ problemsNumber +'.js не существует.</p>'
+            wraper.innerHTML = '<p class="answer-section">В файле '+ problemsNumber +'.js произошла ошибка.</p>'
             target.appendChild(wraper);
         }
     }
