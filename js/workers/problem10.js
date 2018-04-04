@@ -24,7 +24,7 @@ var calc = function() {
             return arr;
         }
 
-        var list = eratosfen(2000000);
+        var list = eratosfen(2e6); // 2000000
 
         for (var j = 2; j < list.length; j++) {
             if (list[j]) sum += j;

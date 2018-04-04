@@ -5,7 +5,7 @@ var calc = function () {
     var maxSequence = 0,
         currentSequence = 0,
         storedNumber = 2,
-        currentNumber = 1000000;
+        currentNumber = 1e6; // 1000000
 
     function collatz(n) {
         var iter = 0;
