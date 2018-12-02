@@ -1,11 +1,14 @@
 /* eslint-disable no-param-reassign */
 // ответ {arg1: 69143, arg2: 91009, maxPolindrom: 1997667991}
+let counter = 0;
+
 function isPolindrom(num) {
   const str = String(num);
   let start = 0;
   let end = str.length - 1;
 
   while (start < end) {
+    counter += 1;
     if (str[start] !== str[end]) {
       return false;
     }
