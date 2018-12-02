@@ -1,24 +1,19 @@
 /* eslint-disable no-param-reassign */
+// ответ {arg1: 69143, arg2: 91009, maxPolindrom: 1997667991}
 function isPolindrom(num) {
-  let str = String(num);
+  const str = String(num);
+  let start = 0;
+  let end = str.length - 1;
 
-  for (let i = 0; i <= str.length; i += 1) {
-    if (str[0] === str[str.length - 1]) {
-      str = str.slice(1, str.length - 1);
-    } else {
-      break;
+  while (start < end) {
+    if (str[start] !== str[end]) {
+      return false;
     }
+    start += 1;
+    end -= 1;
   }
-  if (str.length <= 1) {
-    return true;
-  }
-  return false;
 
-
-  // это решение гараздо короче, но медленее в 5 раз
-  // const checkingValue = num.toString();
-  // const reverseValue = checkingValue.split('').reverse().join('');
-  // return checkingValue === reverseValue;
+  return true;
 }
 
 function eratosfen(n) {
@@ -41,27 +36,10 @@ function eratosfen(n) {
 }
 
 function isPrimeNumber(num) {
-  // const s = num;
-  // if (s % 2 === 0 && s !== 2) return false;
-  // // if (s > 30) s = Math.floor(Math.sqrt(s));
-  // for (let i = 2; i < s; i += 1) {
-  //   if (num % i === 0) return false;
-  // }
-  // return !!((num !== 1 || num === 2));
   return isPrimeNumber.cache[num];
 }
 isPrimeNumber.cache = eratosfen(1e5);
 
-// function test(a, b) {
-//   const m = Math.imul(a, b);
-//   if (isPolindrom(m)) {
-//     return m;
-//   }
-//   return null;
-// }
-
-// 34982429
-let counter = 0;
 function findMaxPolindrom(data) {
   const { length } = data;
   let i = 0;
@@ -69,25 +47,23 @@ function findMaxPolindrom(data) {
   const resObj = {
     arg1: 0,
     arg2: 0,
-    mult: 0,
+    maxPolindrom: 0,
   };
 
 
   for (i; i < length; i += 1) {
     const n1 = data[i];
-    // counter += 1;
+
     for (j; j < length; j += 1) {
       const n2 = data[j];
       const res = Math.imul(n1, n2);
-      // if (isPolindrom(res)) {
-        counter += 1;
-        if (res > resObj.mult) {
-          resObj.mult = res;
+      if (isPolindrom(res)) {
+        if (res > resObj.maxPolindrom) {
+          resObj.maxPolindrom = res;
           resObj.arg1 = n1;
           resObj.arg2 = n2;
         }
-      // }
-      // counter += 1;
+      }
     }
     // смещение по диагонали, чтобы не повторять уножение с теми же множителями (a * b === b * a)
     j = i + 1;
@@ -113,6 +89,5 @@ for (currentNum; currentNum < maxNum; currentNum += 1) {
 const result = findMaxPolindrom(primes);
 
 console.timeEnd('findMaxPolindrom()');
-console.log(primes);
+// console.log(primes);
 console.log(result);
-console.log(counter);
