@@ -1,14 +1,12 @@
-'use strict'
 
-var calc = function() {
-    
-}
+const calc = function calc() {
+  // answer:
+};
 
-addEventListener('message', function () {
-
-    postMessage({
-        answer: calc(),
-        code: calc.toString()
-    });
-
-})
+// eslint-disable-next-line no-restricted-globals
+addEventListener('message', () => {
+  postMessage({
+    answer: calc(),
+    code: calc.toString(),
+  });
+});

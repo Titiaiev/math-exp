@@ -1,39 +1,39 @@
-'use strict'
 
-var calc = function () {
-    //ответ: 837799
-    var maxSequence = 0,
-        currentSequence = 0,
-        storedNumber = 2,
-        currentNumber = 1e6; // 1000000
 
-    function collatz(n) {
-        var iter = 0;
+const calc = function calc() {
+  // ответ: 837799
+  let maxSequence = 0;
+  let currentSequence = 0;
+  let storedNumber = 2;
+  let currentNumber = 1e6; // 1000000
 
-        while (n !== 1) {
-            (n % 2 === 0) ? (n = n / 2) : (n = n * 3 + 1);
-            iter++
-        }
-        return (iter + 1);
+  function collatz(n) {
+    let iter = 0;
+    let _n = n;
+
+    while (_n !== 1) {
+      _n = (_n % 2 === 0) ? (_n / 2) : (_n * 3 + 1);
+      iter += 1;
     }
+    return (iter + 1);
+  }
 
-    while (currentNumber) {
-        currentSequence = collatz(currentNumber);
-        if (currentSequence > maxSequence) {
-            maxSequence = currentSequence;
-            storedNumber = currentNumber;
-        }
-        currentNumber--;
+  while (currentNumber) {
+    currentSequence = collatz(currentNumber);
+    if (currentSequence > maxSequence) {
+      maxSequence = currentSequence;
+      storedNumber = currentNumber;
     }
+    currentNumber -= 1;
+  }
 
-    return storedNumber;
-}
+  return storedNumber;
+};
 
-addEventListener('message', function () {
-
-    postMessage({
-        answer: calc(),
-        code: calc.toString()
-    });
-
-})
+// eslint-disable-next-line no-restricted-globals
+addEventListener('message', () => {
+  postMessage({
+    answer: calc(),
+    code: calc.toString(),
+  });
+});

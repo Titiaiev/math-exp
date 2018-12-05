@@ -1,53 +1,27 @@
-'use strict'
+/* eslint-disable no-undef */
 // answer 906609
-var calc = function() {
-    var polindrom = 0;
+importScripts('../$Math.js');
+importScripts('../timer.js');
 
-        console.time('время выполнения скрипта');
-        for (var i = 999; i > 99; i--) {
-            for (var j = 999; j > 99; j--) {
-                var currentMult = ( i * j );
-                if (isPolindrom(currentMult) && currentMult > polindrom) {
-                    polindrom = i * j;
-                    // console.log('i: ' + i);
-                    // console.log('j: ' + j);
-                    // console.log('-------------');
-                }
-            }
-        }
-        console.timeEnd('время выполнения скрипта');
+const calc = function calc() {
+  let polindrom = 0;
 
-        function isPolindrom(num) {
-            var str = num + '';
-            for (let i = 0; i <= str.length; i++) {
-                if (str[0] === str[str.length - 1]) {
-                    var str = str.slice(1, str.length - 1);
-                    // console.log(str);
-                } else {
-                    // console.log(str);
-                    break;
-                }
-            }
-            if (str.length <= 1) {
-                return true
-            } else {
-                return false
-            }
+  for (let i = 999; i > 99; i -= 1) {
+    for (let j = 999; j > 99; j -= 1) {
+      const currentMult = (i * j);
 
-            // это решение гараздо короче, но медленее в 5 раз
-            // var checkingValue = num.toString();
-            // var reverseValue = checkingValue.split('').reverse().join('');
-            // return checkingValue === reverseValue;
-        }
+      if ($Math.isPolindrom(currentMult) && currentMult > polindrom) {
+        polindrom = i * j;
+      }
+    }
+  }
+  return polindrom;
+};
 
-        return polindrom;
-}
-
-addEventListener('message', function () {
-
-    postMessage({
-        answer: calc(),
-        code: calc.toString()
-    });
-
-})
+// eslint-disable-next-line no-restricted-globals
+addEventListener('message', () => {
+  postMessage({
+    answer: timer('problem4 done for: ', calc),
+    code: calc.toString(),
+  });
+});

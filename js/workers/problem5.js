@@ -1,31 +1,31 @@
-'use strict'
+/* eslint-disable no-labels */
+/* eslint-disable no-restricted-syntax */
 
-var calc = function() {
-    var n = 1;
-        console.time('time of work: ')
-        outer:
-            // for (var i = 20; ; i++) {       //первоначальный вариант
-            for (var i = 2520;; i += 2520) { //подглядел на форуме
-                for (var j = 2; j <= 20; j++) {
-                    if (i % j !== 0) {
-                        break;
-                    }
-                    if (j === 20 && i % j === 0) {
-                        n = i;
-                        break outer;
-                    }
-                }
-            }
-        console.timeEnd('time of work: ')
+// 232792560
+const calc = function calc() {
+  let n = 1;
 
-        return n;
-}
+  outer:
+  // for (var i = 20; ; i++) {       //первоначальный вариант
+  for (let i = 2520; ; i += 2520) { // подглядел на форуме
+    for (let j = 2; j <= 20; j += 1) {
+      if (i % j !== 0) {
+        break;
+      }
+      if (j === 20 && i % j === 0) {
+        n = i;
+        break outer;
+      }
+    }
+  }
 
-addEventListener('message', function () {
+  return n;
+};
 
-    postMessage({
-        answer: calc(),
-        code: calc.toString()
-    });
-
-})
+// eslint-disable-next-line no-restricted-globals
+addEventListener('message', () => {
+  postMessage({
+    answer: calc(),
+    code: calc.toString(),
+  });
+});
