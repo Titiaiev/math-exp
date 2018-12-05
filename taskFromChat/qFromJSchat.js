@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 // ответ {arg1: 69143, arg2: 91009, maxPolindrom: 1997667991}
-let counter = 0;
+// let counter = 0;
 
 function isPolindrom(num) {
   const str = String(num);
@@ -8,7 +8,7 @@ function isPolindrom(num) {
   let end = str.length - 1;
 
   while (start < end) {
-    counter += 1;
+    // counter += 1;
     if (str[start] !== str[end]) {
       return false;
     }
@@ -75,7 +75,7 @@ function findMaxPolindrom(data) {
   return resObj;
 }
 
-console.time('findMaxPolindrom()');
+// console.time('findMaxPolindrom()');
 
 let currentNum = 1e4;
 const maxNum = 1e5;
@@ -91,6 +91,6 @@ for (currentNum; currentNum < maxNum; currentNum += 1) {
 
 const result = findMaxPolindrom(primes);
 
-console.timeEnd('findMaxPolindrom()');
+// console.timeEnd('findMaxPolindrom()');
 // console.log(primes);
-console.log(result);
+// console.log(result);
