@@ -21,23 +21,41 @@
 </head>
 
 <body>
-    <!--Чтобы добавить новую задачу, достаточно в список добавить заголовок и параграф.
-        Идентификатор соответствует номеру задачи-->
-    <div class="hero  is-primary">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Решения задач из "Проекта Эйлера"
-                </h1>
-                
-                <p class="subtitle">Перевод задач <a class="button is-link is-inverted" href="http://euler.jakumo.org/problems.html" target="_blank">здесь</a> ,оригинал 
-                    <a class="button is-link is-inverted" href="https://projecteuler.net/archives" target="_blank"> здесь.</a>
-                </p>
+
+    <nav class="navbar is-light is-fixed-top">
+        <div class="navbar-brand">
+            <a class="navbar-item has-text-primary title is-3" href="https://titiaiev.github.io/math-exp/">
+                Math-exp
+            </a>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary" href="http://euler.jakumo.org/problems.html" target="_blank">
+                        <span class="icon">
+                            <i class="fas fa-link"></i>
+                        </span>
+                        <strong>Euler RU</strong>
+                    </a>
+
+                    <a class="button is-primary" href="https://projecteuler.net/archives" target="_blank">
+                        <span class="icon">
+                            <i class="fas fa-link"></i>
+                        </span>
+                        <strong>Euler EN</strong>
+                    </a>
+
+                    <a class="button is-link" href="https://github.com/Titiaiev/math-exp" target="_blank">
+                        <span class="icon">
+                            <i class="fab fa-github"></i>
+                        </span>
+                        <strong>Код на GitHub</strong>
+                    </a>
+                </div>
             </div>
         </div>
-        
-        
-    </div>
+    </nav>
 
     <div class="content">
         <ul id="problems-container"></ul>

@@ -1,6 +1,10 @@
 @charset "utf-8";
 @import "../node_modules/bulma/bulma.sass";
 
+.content {
+  margin-top: 150px;
+}
+
 .content li {
   list-style: none;
   padding-top: 40px;

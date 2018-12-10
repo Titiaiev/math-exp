@@ -6746,6 +6746,9 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.content {
+  margin-top: 150px; }
+
 .content li {
   list-style: none;
   padding-top: 40px; }
