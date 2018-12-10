@@ -2,10 +2,11 @@
 
 + ES6
 + [Webworkers](https://developer.mozilla.org/ru/docs/Web/API/Web_Workers_API)
-+ Библиотека css [Bulma](https://bulma.io)
++ Библиотеку css [Bulma](https://bulma.io)
 + Иконки [Fontawesome](https://fontawesome.com)
 + Библиотеку [highlight.js](https://highlightjs.org/), для подсветки синтаксиса в тегах \<code>
 + robots.txt [ru docs](http://robotstxt.org.ru/robotsexclusion/guide#rob9)
++ Билиотеку для работы с большими числами [bigInteger.js](https://github.com/peterolson/BigInteger.js/)
 
 ## Комментарии
 
