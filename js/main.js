@@ -1,64 +1,142 @@
-
-window.onload = function onloadHandler() {
-  const problemsList = Array.from(document.querySelectorAll('#problems-list > li'));
-  // добавить кнопки не пустым элементам списка
-  problemsList.forEach((problem) => {
-    if (problem.childNodes.length > 0) {
-      const btn = document.createElement('button');
-      btn.classList.add('button', 'is-primary');
-      btn.innerText = 'решить';
-      problem.appendChild(btn);
-    }
-  });
-
-  // показать ответ и код
-  function calculateAndDisplayAnswer(target, btn, problemsNumber) {
-    btn.classList.add('is-loading');
-    const worker = new Worker(`js/workers/${problemsNumber}.js`);
-    const answerSection = document.createElement('p');
-    const pre = document.createElement('pre');
-    const code = document.createElement('code');
+class ProblemNode {
+  constructor(data) {
+    const { id, title, description } = data;
+    const li = document.createElement('li');
+    const h2 = document.createElement('h2');
+    const descriptionParagraph = document.createElement('p');
+    const button = document.createElement('button');
     const wraper = document.createElement('div');
+    const buttonsContainer = document.createElement('div');
+    const answerSection = document.createElement('p');
 
-    answerSection.classList.add('notification', 'is-success');
-    code.classList.add('javascript');
+    answerSection.classList.add('notification', 'is-success', 'column');
 
-    wraper.appendChild(answerSection);
-    pre.appendChild(code);
-    wraper.appendChild(pre);
+    h2.innerText = `#${id} ${title}`;
+    descriptionParagraph.innerHTML = description;
+    button.innerText = 'решить';
+    button.classList.add('button', 'is-primary');
+    wraper.classList.add('columns');
 
-    worker.postMessage('');
+    const that = this;
+    button.addEventListener('click', function clickHandler(e) {
+      that.calculate();
+      button.removeEventListener('click', clickHandler);
+      button.addEventListener('click', () => {
+        that.modal.classList.add('is-active');
+      }, false);
+    }, false);
 
-    worker.onmessage = function messageHandler(response) {
-      answerSection.innerText = `Ответ: ${response.data.answer}`;
-      code.innerHTML = response.data.code;
-      if (hljs) {
-        // code.classList.add('javascript');
-        hljs.highlightBlock(code);
-      }
+    buttonsContainer.classList.add('column');
+    buttonsContainer.appendChild(button);
+    wraper.appendChild(buttonsContainer);
+    li.appendChild(h2);
+    li.appendChild(descriptionParagraph);
+    li.appendChild(wraper);
 
-      btn.classList.remove('is-loading');
-      target.removeChild(btn);
-      target.appendChild(wraper);
-    };
-
-    worker.onerror = function errorHandler() {
-      wraper.innerHTML = `<p class="answer-section">В файле ${problemsNumber}.js произошла ошибка.</p>`;
-      target.appendChild(wraper);
-      btn.classList.remove('is-loading');
-      btn.innerHTML = `    <span class="icon">
-      <i class="far fa-frown"></i>
-    </span>
-    <span>Ошибка!!!</span>`;
-      btn.classList.remove('is-success');
-      btn.classList.add('is-danger');
-    };
+    this.li = li;
+    this.id = id;
+    this.button = button;
+    this.answerSection = answerSection;
+    this.wraper = wraper;
+    this.modal = null;
   }
 
-  // повесить на кнопки события клика
-  document.getElementById('problems-list').addEventListener('click', (e) => {
-    if (e.target.nodeName === 'BUTTON') {
-      calculateAndDisplayAnswer(e.target.parentNode, e.target, e.target.parentNode.getAttribute('data-id'));
+  // eslint-disable-next-line class-methods-use-this
+  createModal(content) {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+
+    modal.innerHTML = `
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <pre></pre>
+      </section>
+      <footer class="modal-card-foot">
+
+      </footer>
+    </div>`;
+
+    const closeBtn = modal.querySelector('button.delete');
+    const modalBG = modal.querySelector('.modal-background');
+    const modalCardTitle = modal.querySelector('.modal-card-title');
+    const pre = modal.querySelector('pre');
+    const code = document.createElement('code');
+
+    modalCardTitle.innerText = `Код можно найти в файле: js/workers/problem${this.id}.js`;
+
+    code.innerHTML = content;
+    if (hljs) {
+      code.classList.add('javascript');
+      hljs.highlightBlock(code);
     }
-  }, false);
+    pre.appendChild(code);
+
+    closeBtn.onclick = () => {
+      modal.classList.remove('is-active');
+    };
+
+    modalBG.onclick = () => {
+      modal.classList.remove('is-active');
+    };
+
+    return modal;
+  }
+
+  calculate() {
+    this.button.classList.add('is-loading');
+    const worker = new Worker(`js/workers/problem${this.id}.js`);
+
+    worker.postMessage('');
+    worker.onmessage = this.answerHandle.bind(this);
+    worker.onerror = this.errorHandle.bind(this);
+  }
+
+  answerHandle(response) {
+    // console.log(this);
+    this.button.classList.remove('is-loading');
+    this.button.classList.remove('is-primary');
+    this.button.classList.add('is-info');
+    this.button.innerHTML = '<span class="icon"> <i class="fas fa-code"></i> </span> <span>Показать код</span>';
+    this.answerSection.innerText = `Ответ: ${response.data.answer}`;
+    this.wraper.appendChild(this.answerSection);
+
+    this.modal = this.createModal(response.data.code);
+
+    document.getElementById('modals').appendChild(this.modal);
+  }
+
+  errorHandle() {
+    this.button.classList.remove('is-loading');
+    this.button.classList.remove('is-success');
+    this.button.classList.add('is-danger');
+    this.button.innerHTML = '<span class="icon"> <i class="far fa-frown"></i> </span> <span>Ошибка!!!</span>';
+
+    this.answerSection.classList.add('notification', 'is-danger', 'column');
+    this.answerSection.innerText = `В файле problem${this.id}.js произошла ошибка.`;
+    this.wraper.appendChild(this.answerSection);
+  }
+}
+
+
+window.onload = function onloadHandler() {
+  const ul = document.getElementById('problems-container');
+  const tempWraper = document.createDocumentFragment();
+
+  fetch('/problems_list/list.json')
+    .then(res => res.json())
+    .then((res) => {
+      // console.log(res);
+      res.forEach((problem) => {
+        // console.log(problem);
+        const problemNode = new ProblemNode(problem);
+        tempWraper.appendChild(problemNode.li);
+      });
+
+      ul.appendChild(tempWraper);
+    });
 };
