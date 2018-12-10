@@ -1,3 +1,7 @@
+## Демо
+
+[https://titiaiev.github.io/math-exp/](https://titiaiev.github.io/math-exp/)
+
 ## В проекте использовал:
 
 + ES6
