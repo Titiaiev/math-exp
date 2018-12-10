@@ -127,7 +127,7 @@ window.onload = function onloadHandler() {
   const ul = document.getElementById('problems-container');
   const tempWraper = document.createDocumentFragment();
 
-  fetch('/problems_list/list.json')
+  fetch('./problems_list/list.json')
     .then(res => res.json())
     .then((res) => {
       // console.log(res);
