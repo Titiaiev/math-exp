@@ -1,58 +1,45 @@
 /* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
-// ответ {arg1: 69143, arg2: 91009, maxPolindrom: 1997667991}
+// ответ {arg1: 30109, arg2: 33211, maxPolindrom: 999949999}
 importScripts('isPolindrom.js');
 
-function findMaxPolindrom(data, startRow, endRow, getPolindroms = false) {
+function findMaxPolindrom(data, startRow, endRow) {
   const { length } = data;
   const end = endRow || length;
-  let i = startRow || 0; // row
-  let j = startRow || 0; // column
+  let rowIndex = startRow || 0; // row
+  let columnIndex = startRow || 0; // column
+  let maxPolindrom = 0;
+  let arg1 = 0;
+  let arg2 = 0;
 
+  for (rowIndex; rowIndex < end; rowIndex += 1) {
+    const n1 = data[rowIndex];
 
-  const resObj = {
-    arg1: 0,
-    arg2: 0,
-    maxPolindrom: 0,
-  };
-  if (getPolindroms) { resObj.polindroms = []; }
-
-
-  for (i; i < end; i += 1) {
-    const n1 = data[i];
-
-    for (j; j < length; j += 1) {
-      const n2 = data[j];
-      const res = Math.imul(n1, n2);
+    for (columnIndex; columnIndex < length; columnIndex += 1) {
+      const n2 = data[columnIndex];
+      // что-то эта штука оказалась не безопасной, вызывает переполнение буфера
+      // const res = Math.imul(n1, n2);
+      const res = (n1 * n2);
 
       // eslint-disable-next-line no-undef
-      if (isPolindrom(res)) {
-        if (getPolindroms) {
-          resObj.polindroms.push({
-            a: n1,
-            b: n2,
-            mult: res,
-          });
-        }
-
-        if (res > resObj.maxPolindrom) {
-          resObj.maxPolindrom = res;
-          resObj.arg1 = n1;
-          resObj.arg2 = n2;
-        }
+      if (res > maxPolindrom && isPolindrom(res)) {
+        maxPolindrom = res;
+        arg1 = n1;
+        arg2 = n2;
       }
     }
     // смещение по диагонали, чтобы не повторять уножение с теми же множителями (a * b === b * a)
-    j = i + 1;
+    columnIndex = rowIndex + 1;
   }
-  return resObj;
+  return {
+    arg1,
+    arg2,
+    maxPolindrom,
+  };
 }
-
-// this.localStorage.setItem('testFromWorker', 'testString');
 
 onmessage = function (e) {
   const { data } = e;
-  const result = findMaxPolindrom(data.nums, data.start, data.end, data.getPolindroms);
+  const result = findMaxPolindrom(data.nums, data.start, data.end);
   postMessage(result);
 };
-// close();

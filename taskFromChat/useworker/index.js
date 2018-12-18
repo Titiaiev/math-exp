@@ -1,48 +1,50 @@
 /* eslint-disable import/extensions */
 /* eslint-disable func-names */
 import isPrimeNumber from './isPrimeNumber.js';
+import dislay from './display.js';
 
-let currentNum = 1e3;
+let currentNum = 1e4;
 const maxNum = currentNum * 10;
 const primeNumbers = [];
-// let numsBeforeFilter = 0;
+
 // собираем массив простых пятизначных чисел
 for (currentNum; currentNum < maxNum; currentNum += 1) {
-  // numsBeforeFilter += 1;
   if (isPrimeNumber(currentNum)) {
     primeNumbers.push(currentNum);
   }
 }
 
 
-function useWorker(data = [], threads, getPolindroms) {
-  const chuncksCount = threads || 1;
+function useWorker(data = [], threads) {
+  // определить количество ядер на машине
+  const cores = navigator.hardwareConcurrency;
+  // console.log(cores);
+  const chuncksCount = threads || cores || 1;
   const threadsArray = [];
   const { length } = data;
-  const part = Math.ceil(data.length / threads);
-  let _s = 0;
-  let _e = part;
+  const part = Math.ceil(data.length / chuncksCount);
+  let startPoint = 0;
+  let endPoint = part;
 
   for (let i = 0; i < chuncksCount; i += 1) {
     // eslint-disable-next-line no-loop-func
     const thread = new Promise((resolve, reject) => {
-      console.log(`chunck-${i}: _s: ${_s}, _e: ${_e}`);
+      // console.log(`chunck-${i}: start at: ${startPoint} row, end at: ${endPoint} row`);
+      dislay(`chunck-${i}: start at: ${startPoint} row, end at: ${endPoint} row`);
 
       const worker = new Worker('useworker/worker.js');
 
       worker.postMessage({
         nums: data,
-        start: _s,
-        end: _e,
-        getPolindroms: getPolindroms || false,
+        start: startPoint,
+        end: endPoint,
       });
 
-      _s = _e + 1;
-      _e = ((_e + part) < length) ? (_e + part) : length;
+      startPoint = endPoint + 1;
+      endPoint = ((endPoint + part) < length) ? (endPoint + part) : length;
 
       worker.onmessage = function (e) { resolve(e.data); };
       worker.onerror = function (err) { reject(Error(err.filename, err.lineno, err.message)); };
-      // worker.terminate();
     });
 
     threadsArray.push(thread);
@@ -52,24 +54,25 @@ function useWorker(data = [], threads, getPolindroms) {
 }
 
 
-const start = Date.now();
-useWorker(primeNumbers, 4, false)
-  .then((d) => {
-    // let fullArrayOfPolindroms = [];
-    // d.forEach((arr) => {
-    //   fullArrayOfPolindroms = [].concat(fullArrayOfPolindroms, arr.polindroms);
-    // });
-
-    // console.log(fullArrayOfPolindroms);
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const startTimer = performance.now();
+  useWorker(primeNumbers)
+    .then((d) => {
     // console.log(d);
-    // const filteredByA = fullArrayOfPolindroms.filter(v => v.a % 2 === 0);
-    // const filteredByB = fullArrayOfPolindroms.filter(v => v.b % 2 === 0);
-    // console.log(filteredByA);
-    // console.log(filteredByB);
+    // выбрать чанк с максимальным полиндромом
+      const answer = d.sort((a, b) => b.maxPolindrom - a.maxPolindrom)[0];
+      const stopTimer = performance.now();
+      // console.log(answer);
+      dislay('###########################');
+      dislay(`max palindrom is: ${answer.maxPolindrom}`);
+      dislay(`argument-1: ${answer.arg1}`);
+      dislay(`argument-2: ${answer.arg2}`);
 
-    // выбрать максимальный полиндром
-    console.log(d.sort((a, b) => b.maxPolindrom - a.maxPolindrom)[0]);
-    const end = Date.now();
-    console.log(`${(end - start) / 1000}s`);
-  })
-  .catch((err) => { console.log(err); });
+      const time = `${((stopTimer - startTimer) / 1000).toFixed(2)}s`;
+
+      // console.log(time);
+      dislay(`time: ${time}`);
+      dislay('###########################');
+    })
+    .catch((err) => { console.log(err); });
+});
