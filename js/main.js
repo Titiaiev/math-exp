@@ -9,7 +9,7 @@ class ProblemNode {
     const buttonsContainer = document.createElement('div');
     const answerSection = document.createElement('p');
 
-    answerSection.classList.add('notification', 'is-success', 'column');
+    answerSection.classList.add('notification', 'is-warning', 'column');
 
     h2.innerText = `#${id} ${title}`;
     descriptionParagraph.innerHTML = description;
@@ -103,6 +103,11 @@ class ProblemNode {
     this.button.classList.add('is-info');
     this.button.innerHTML = '<span class="icon"> <i class="fas fa-code"></i> </span> <span>Показать код</span>';
     this.answerSection.innerText = `Ответ: ${response.data.answer}`;
+    if (response.data.check) {
+      this.answerSection.classList.remove('is-warning');
+      this.answerSection.classList.add('is-success');
+      this.answerSection.innerText += ` / checked: ${response.data.check}`;
+    }
     this.wraper.appendChild(this.answerSection);
 
     this.modal = this.createModal(response.data.code);
