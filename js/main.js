@@ -103,9 +103,13 @@ class ProblemNode {
     this.button.classList.add('is-info');
     this.button.innerHTML = '<span class="icon"> <i class="fas fa-code"></i> </span> <span>Показать код</span>';
     this.answerSection.innerText = `Ответ: ${response.data.answer}`;
-    if (response.data.check) {
+    if (response.data.check === true) {
       this.answerSection.classList.remove('is-warning');
       this.answerSection.classList.add('is-success');
+      this.answerSection.innerText += ` / checked: ${response.data.check}`;
+    } else if (response.data.check === false) {
+      this.answerSection.classList.remove('is-warning');
+      this.answerSection.classList.add('is-danger');
       this.answerSection.innerText += ` / checked: ${response.data.check}`;
     }
     this.wraper.appendChild(this.answerSection);
