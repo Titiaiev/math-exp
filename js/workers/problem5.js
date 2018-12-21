@@ -1,8 +1,8 @@
 /* eslint-disable no-labels */
 /* eslint-disable no-restricted-syntax */
 
-// 232792560
 const calc = function calc() {
+  // answer: 232792560
   let n = 1;
 
   outer:
@@ -22,10 +22,15 @@ const calc = function calc() {
   return n;
 };
 
+function test(answer) {
+  return calc() === answer;
+}
+
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   postMessage({
     answer: calc(),
     code: calc.toString(),
+    check: test(232792560),
   });
 });

@@ -30,10 +30,15 @@ const calc = function calc() {
   return storedNumber;
 };
 
+function test(answer) {
+  return calc() === answer;
+}
+
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   postMessage({
     answer: calc(),
     code: calc.toString(),
+    check: test(837799),
   });
 });

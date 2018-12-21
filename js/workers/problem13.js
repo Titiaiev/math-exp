@@ -129,10 +129,15 @@ const calc = function calc() {
   return deleteDotAndReturnFirstTenNumbers(sum);
 };
 
+function test(answer) {
+  return calc() === answer;
+}
+
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   postMessage({
     answer: calc(),
     code: calc.toString(),
+    check: test(5537376230),
   });
 });

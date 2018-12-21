@@ -109,10 +109,15 @@ const calc = function calc() {
   return Math.max(results[0], results[1], results[2], results[3]);
 };
 
+function test(answer) {
+  return calc() === answer;
+}
+
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   postMessage({
     answer: calc(),
     code: calc.toString(),
+    check: test(70600674),
   });
 });

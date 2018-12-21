@@ -1,6 +1,6 @@
-// ответ 4613732
 // calc 0.247 - 0.370 ms
 const calc = function calc() {
+  // ответ 4613732
   let sumOfEvenFibonacci = 0;
 
   function fibonacci(maximum) {
@@ -27,6 +27,11 @@ const calc = function calc() {
 
   return sumOfEvenFibonacci;
 };
+
+function test(answer) {
+  return calc() === answer;
+}
+
 importScripts('../timer.js');
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
@@ -37,5 +42,6 @@ addEventListener('message', () => {
   postMessage({
     answer,
     code: calc.toString(),
+    check: test(4613732),
   });
 });

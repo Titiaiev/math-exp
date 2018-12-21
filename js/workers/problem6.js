@@ -1,6 +1,7 @@
 
 
 const calc = function calc() {
+// answer: 25164150
   let sum = 0;
 
 
@@ -13,10 +14,15 @@ const calc = function calc() {
   return sum * sum - sumOfSqrts;
 };
 
+function test(answer) {
+  return calc() === answer;
+}
+
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   postMessage({
     answer: calc(),
     code: calc.toString(),
+    check: test(25164150),
   });
 });

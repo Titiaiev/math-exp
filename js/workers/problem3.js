@@ -1,4 +1,5 @@
 const calc = function calc() {
+  // answer: 6857
   const z = 600851475143;
   /*
     *определяет является ли число простым
@@ -34,10 +35,15 @@ const calc = function calc() {
   return maxPrimeDivider(z);
 };
 
+function test(answer) {
+  return calc() === answer;
+}
+
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   postMessage({
     answer: calc(),
     code: calc.toString(),
+    check: test(6857),
   });
 });

@@ -18,6 +18,7 @@ const calc = function calc() {
 
   let n = 0;
   for (let i = 1; counter < 10001; i += 1) {
+    // использую свою библиотеку
     if ($Math.isPrimeNumber(i)) {
       n = i;
       counter += 1;
@@ -27,10 +28,15 @@ const calc = function calc() {
   return n;
 };
 
+function test(answer) {
+  return calc() === answer;
+}
+
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   postMessage({
     answer: calc(),
     code: calc.toString(),
+    check: test(104743),
   });
 });
