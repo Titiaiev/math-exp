@@ -31,7 +31,7 @@ const calc = async function calc() {
     Z: 26,
   };
 
-  const sortedNames = await fetch('/problems_list/names.txt')
+  const sortedNames = await fetch('../../problems_list/names.txt')
     .then(response => response.text()
       .then((text) => {
         const names = text.split(',').map(word => word.substring(1, word.length - 1));
