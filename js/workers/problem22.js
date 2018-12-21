@@ -31,29 +31,28 @@ const calc = async function calc() {
     Z: 26,
   };
 
-  const result = await fetch('/problems_list/names.txt')
+  const sortedNames = await fetch('/problems_list/names.txt')
     .then(response => response.text()
       .then((text) => {
         const names = text.split(',').map(word => word.substring(1, word.length - 1));
         names.sort();
-
-        let sumOfPoints = 0;
-        names.forEach((name, position) => {
-          let nameNum = 0;
-          name.split('').forEach((letter) => {
-            nameNum += alphabetMap[letter];
-          });
-          sumOfPoints += nameNum * (position + 1);
-        });
-        return sumOfPoints;
+        return names;
       }));
-  return result;
+
+  let sumOfPoints = 0;
+
+  sortedNames.forEach((name, position) => {
+    let namePoints = 0;
+    name.split('').forEach((letter) => {
+      namePoints += alphabetMap[letter.toUpperCase()];
+    });
+
+    sumOfPoints += namePoints * (position + 1);
+  });
+  return sumOfPoints;
 };
 
-function test(answer) {
-  return calc() === answer;
-}
-console.log(calc());
+// console.log(calc());
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
   calc().then((a) => {
