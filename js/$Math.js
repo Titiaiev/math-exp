@@ -180,3 +180,13 @@ $Math.Random = {
   },
 
 };
+
+$Math.splitTheNumberIntoDigits = function splitTheNumberIntoDigits(_n = 0) {
+  let n = Number(_n) || 0;
+  const arr = [];
+  while (n > 0) {
+    arr.unshift(n % 10);
+    n = Math.floor(n / 10);
+  }
+  return arr;
+};
