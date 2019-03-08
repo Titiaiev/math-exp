@@ -1,5 +1,5 @@
-
-const calc = function calc() {
+importScripts('../$Math.js');
+const calc = async function calc() {
   // answer:
   let result = 0;
 
@@ -7,15 +7,14 @@ const calc = function calc() {
   return result;
 };
 
-function test(answer) {
-  return calc() === answer;
-}
 
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', () => {
-  postMessage({
-    answer: calc(),
-    code: calc.toString(),
-    check: test(0),
+  calc().then((a) => {
+    postMessage({
+      answer: a,
+      code: calc.toString(),
+      check: a === 10,
+    });
   });
 });
